@@ -15,6 +15,8 @@ CORS(app)
 # create the jackson family object
 jackson_family = FamilyStructure("Jackson")
 
+
+
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -27,7 +29,7 @@ def sitemap():
 
 @app.route('/members', methods=['GET'])
 def handle_hello():
-
+    
     # this is how you can use the Family datastructure by calling its methods
     members = jackson_family.get_all_members()
     response_body = {
@@ -36,7 +38,51 @@ def handle_hello():
     }
 
 
-    return jsonify(response_body), 200
+    return jsonify(response_body), 200  
+
+
+@app.route("/members/add", methods=['POST'])
+def add_members():
+    body = request.json
+    success = jackson_family.add_member(body)
+    if success == True:
+        return jsonify({"msg":"creado con exito"}), 201
+    return jsonify(success), 400
+
+
+
+@app.route("/members/<int:id>", methods=['DELETE'])
+def delete_members(id):
+    success = jackson_family.delete_member(id)
+    if success == True:
+        return jsonify({"msg":"eliminado con exito"}), 200
+    return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
+
+
+
+@app.route("/members/<int:id>", methods=['GET'])
+def get_member(id):
+    success = jackson_family.get_member(id)
+    if success:
+        return jsonify(success), 200
+    return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
+
+@app.route("/members/<int:id>", methods=['PUT'])
+def edit_members(id):
+    body = request.json
+    if "last_name" in body:
+        success = jackson_family.edit_member(id, body["last_name"])
+        if success == True:
+            return jsonify({"msg":"editado con exito"}), 200
+        return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
+    return jsonify({"msg":"last_name no esta en el body"}), 400
+
+
+
+
+
+
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
