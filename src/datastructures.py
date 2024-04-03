@@ -9,8 +9,9 @@ update this file to implement the following already declared methods:
 from random import randint
 
 class FamilyStructure:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, last_name):
+        self.last_name = last_name
+        
         
 
         # example list of members
@@ -39,10 +40,12 @@ class FamilyStructure:
     def delete_member(self, id):
         # fill this method and update the return
         id_exist = False
+
         for member in self._members:
           if member["id"] == id:
             self._members.remove(member)
             id_exist = True
+
         if id_exist is True:
             return True
         return False
@@ -55,12 +58,12 @@ class FamilyStructure:
             return member
         return False
     
-    def edit_member(self, id, name):
+    def edit_member(self, id, last_name):
         # fill this method and update the return
 
         for member in self._members:
           if member["id"] == id:
-            member["name"] = name
+            member["last_name"] = last_name
             return True
         return False
         

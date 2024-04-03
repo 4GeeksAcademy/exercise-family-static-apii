@@ -37,11 +37,10 @@ def handle_hello():
         "family": members
     }
 
-
     return jsonify(response_body), 200  
 
 
-@app.route("/members", methods=['POST'])
+@app.route("/member", methods=['POST'])
 def add_members():
     body = request.json
     success = jackson_family.add_member(body)
@@ -51,7 +50,7 @@ def add_members():
 
 
 
-@app.route("/members/<int:id>", methods=['DELETE'])
+@app.route("/member/<int:member_id>", methods=['DELETE'])
 def delete_members(id):
     success = jackson_family.delete_member(id)
     if success == True:
@@ -60,22 +59,22 @@ def delete_members(id):
 
 
 
-@app.route("/members/<int:id>", methods=['GET'])
+@app.route("/member/<int:member_id>", methods=['GET'])
 def get_member(id):
     success = jackson_family.get_member(id)
     if success:
         return jsonify(success), 200
     return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
 
-@app.route("/members/<int:id>", methods=['PUT'])
+@app.route("/member/<int:member_id>", methods=['PUT'])
 def edit_members(id):
     body = request.json
-    if "name" in body:
-        success = jackson_family.edit_member(id, body["name"])
+    if "last_name" in body:
+        success = jackson_family.edit_member(id, body["last_name"])
         if success == True:
             return jsonify({"msg":"editado con exito"}), 200
         return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
-    return jsonify({"msg":"name no esta en el body"}), 400
+    return jsonify({"msg":"last_name no esta en el body"}), 400
 
 
 
