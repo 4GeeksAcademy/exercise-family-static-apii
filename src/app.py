@@ -41,7 +41,7 @@ def handle_hello():
     return jsonify(response_body), 200  
 
 
-@app.route("/members/add", methods=['POST'])
+@app.route("/members", methods=['POST'])
 def add_members():
     body = request.json
     success = jackson_family.add_member(body)
@@ -70,12 +70,12 @@ def get_member(id):
 @app.route("/members/<int:id>", methods=['PUT'])
 def edit_members(id):
     body = request.json
-    if "last_name" in body:
-        success = jackson_family.edit_member(id, body["last_name"])
+    if "name" in body:
+        success = jackson_family.edit_member(id, body["name"])
         if success == True:
             return jsonify({"msg":"editado con exito"}), 200
         return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
-    return jsonify({"msg":"last_name no esta en el body"}), 400
+    return jsonify({"msg":"name no esta en el body"}), 400
 
 
 
