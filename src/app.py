@@ -51,20 +51,20 @@ def add_members():
 
 
 @app.route("/member/<int:member_id>", methods=['DELETE'])
-def delete_members(id):
-    success = jackson_family.delete_member(id)
+def delete_members(member_id):
+    success = jackson_family.delete_member(member_id)
     if success == True:
         return jsonify({"msg":"eliminado con exito"}), 200
-    return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
+    return jsonify({"msg":f"no se encontro el miembro con el id {member_id}"}), 400
 
 
 
 @app.route("/member/<int:member_id>", methods=['GET'])
-def get_member(id):
-    success = jackson_family.get_member(id)
+def get_member(member_id):
+    success = jackson_family.get_member(member_id)
     if success:
         return jsonify(success), 200
-    return jsonify({"msg":f"no se encontro el miembro con el id {id}"}), 400
+    return jsonify({"msg":f"no se encontro el miembro con el id {member_id}"}), 400
 
 @app.route("/member/<int:member_id>", methods=['PUT'])
 def edit_members(id):
